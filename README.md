@@ -1,2 +1,2 @@
 # tracer
-Join project to build a raytracer
+Joint project to build a raytracer
