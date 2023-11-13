@@ -2,7 +2,7 @@ use std::ops;
 
 type Unit = f32;
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Clone)]
 struct Vec3(Unit, Unit, Unit);
 
 impl Vec3 {
@@ -17,10 +17,9 @@ impl Vec3 {
     }
 }
 impl ops::Add for Vec3 {
-    type Output = Self;
-
+    type Output = Vec3;
     fn add(self, rhs: Self) -> Self::Output {
-        Self(
+        Vec3(
             self.x() + rhs.x(),
             self.y() + rhs.y(),
             self.z() + rhs.z(),
@@ -28,9 +27,9 @@ impl ops::Add for Vec3 {
     }
 }
 impl ops::Sub for Vec3 {
-    type Output = Self;
+    type Output = Vec3;
     fn sub(self, rhs: Self) -> Self::Output {
-        Self (
+        Vec3 (
             self.x() - rhs.x(),
             self.y() - rhs.y(),
             self.z() - rhs.z(),
