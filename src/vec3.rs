@@ -27,6 +27,16 @@ impl ops::Add for Vec3 {
             )
     }
 }
+impl ops::Sub for Vec3 {
+    type Output = Self;
+    fn sub(self, rhs: Self) -> Self::Output {
+        Self (
+            self.x() - rhs.x(),
+            self.y() - rhs.y(),
+            self.z() - rhs.z(),
+            )
+    }
+}
 #[cfg(test)]
 mod test {
     use super::*;
@@ -37,5 +47,13 @@ mod test {
         let v2 = Vec3(2.0, 3.0, 4.0);
         let v3 = Vec3(7.0, 9.0, 11.0);
         assert!(v1 + v2 == v3);
+    }
+
+    #[test]
+    fn test_subtract() {
+        let v1 = Vec3(10.0, 10.0, 10.0);
+        let v2 = Vec3(3.0, 7.0, 5.0);
+        let v3 = Vec3(7.0, 3.0, 5.0);
+        assert!(v1 - v2 == v3);
     }
 }
