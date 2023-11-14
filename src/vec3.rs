@@ -13,6 +13,9 @@ impl Vec3 {
         self.1.powi(2) +
         self.2.powi(2)
     }
+    pub fn unit_vector(&self) -> Self {
+        *self / self.length()
+    }
 }
 impl AddAssign for Vec3 {
     fn add_assign(&mut self, rhs: Self) {
@@ -133,5 +136,11 @@ mod test {
     fn length() {
         let v = Vec3(3.0, 4.0, 0.0);
         assert_eq!(v.length(), 5.0);
+    }
+
+    #[test]
+    fn unit_vec() {
+        let v = Vec3(3.0, 9.0, 4.5);
+        assert_eq!(v.unit_vector().length(), 1.0);
     }
 }
