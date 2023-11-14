@@ -1,5 +1,5 @@
 use crate::vec3::{Vec3, Point};
-struct Ray {
+pub struct Ray {
     p: Point,
     d: Vec3
 }
