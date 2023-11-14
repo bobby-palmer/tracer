@@ -3,8 +3,11 @@ use std::ops::{Add, Sub, Mul, Div, AddAssign, SubAssign, MulAssign, DivAssign, N
 type Unit = f32;
 
 #[derive(PartialEq, Clone, Copy, Debug)]
-struct Vec3 (Unit, Unit, Unit);
+pub struct Vec3 (Unit, Unit, Unit);
 impl Vec3 {
+    pub fn new(x: Unit, y: Unit, z: Unit) -> Vec3 {
+        Vec3(x,y,z)
+    }
     pub fn length(&self) -> Unit {
         self.length_squared().sqrt()
     }
@@ -95,6 +98,18 @@ impl Div<Unit> for Vec3 {
         v
     }
 }
+pub fn dot(u: Vec3, v: Vec3) -> Unit {
+    u.0 * v.0 +
+    u.1 * v.1 +
+    u.2 * v.2
+}
+pub fn cross(u: Vec3, v: Vec3) -> Vec3 {
+    Vec3(
+        u.1 * v.2 - u.2 * v.1,
+        u.2 * v.0 - u.0 * v.2,
+        u.0 * v.1 - u.1 * v.0
+        )
+}
 #[cfg(test)]
 mod test {
     use super::*;
@@ -142,5 +157,20 @@ mod test {
     fn unit_vec() {
         let v = Vec3(3.0, 9.0, 4.5);
         assert_eq!(v.unit_vector().length(), 1.0);
+    }
+
+    #[test]
+    fn dot_prod() {
+        let v1 = Vec3(1.0,2.0,3.0);
+        let v2 = Vec3(6.0,7.0,8.0);
+        assert_eq!(dot(v1, v2),44.0);
+    }
+
+    #[test]
+    fn cross_prod() {
+        let v1 = Vec3(1.0,0.0,0.0);
+        let v2 = Vec3(3.0,2.0,4.0);
+        let v3 = Vec3(0.0, -4.0, 2.0);
+        assert_eq!(cross(v1, v2),v3);
     }
 }
