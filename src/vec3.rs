@@ -4,7 +4,16 @@ type Unit = f32;
 
 #[derive(PartialEq, Clone, Copy, Debug)]
 struct Vec3 (Unit, Unit, Unit);
-
+impl Vec3 {
+    pub fn length(&self) -> Unit {
+        self.length_squared().sqrt()
+    }
+    fn length_squared(&self) -> Unit {
+        self.0.powi(2) +
+        self.1.powi(2) +
+        self.2.powi(2)
+    }
+}
 impl AddAssign for Vec3 {
     fn add_assign(&mut self, rhs: Self) {
         self.0 += rhs.0;
@@ -118,5 +127,11 @@ mod test {
         let v1 = Vec3(1.0, 3.0, 5.0);
         let v2 = Vec3(5.0, 15.0, 25.0);
         assert_eq!(v2 / factor, v1);
+    }
+
+    #[test]
+    fn length() {
+        let v = Vec3(3.0, 4.0, 0.0);
+        assert_eq!(v.length(), 5.0);
     }
 }
