@@ -1,58 +1,88 @@
-use std::ops::{Add, Sub, Mul, Div};
+use std::ops::{Add, Sub, Mul, Div, AddAssign, SubAssign, MulAssign, DivAssign, Neg};
 
 type Unit = f32;
 
 #[derive(PartialEq, Clone, Copy, Debug)]
 struct Vec3 (Unit, Unit, Unit);
 
-macro_rules! derive_self_ops {
-    ($trait_name: ident $op: ident $op_symbol: tt) => {
-        impl $trait_name for Vec3 {
-            type Output = Vec3;
-
-            fn $op(self, rhs: Vec3) -> Vec3 {
-                Vec3(
-                    self.0 $op_symbol rhs.0,
-                    self.1 $op_symbol rhs.1,
-                    self.2 $op_symbol rhs.2,
-                    )
-            }
-        }
+impl AddAssign for Vec3 {
+    fn add_assign(&mut self, rhs: Self) {
+        self.0 += rhs.0;
+        self.1 += rhs.1;
+        self.2 += rhs.2;
     }
 }
-
-derive_self_ops!(Add add +);
-derive_self_ops!(Sub sub -);
-
-macro_rules! derive_unit_ops {
-    ($trait_name: ident $op: ident $op_symbol: tt) => {
-        impl $trait_name<Unit> for Vec3 {
-            type Output = Vec3;
-
-            fn $op(self, rhs: Unit) -> Self::Output {
-                Vec3(
-                    self.0 $op_symbol rhs,
-                    self.1 $op_symbol rhs,
-                    self.2 $op_symbol rhs,
-                    )
-            }
-        }
-        impl $trait_name<Vec3> for Unit {
-            type Output = Vec3;
-
-            fn $op(self, rhs: Vec3) -> Self::Output {
-                Vec3 (
-                    self $op_symbol rhs.0,
-                    self $op_symbol rhs.1,
-                    self $op_symbol rhs.2,
-                    )
-            }
-        }
+impl Add for Vec3 {
+    type Output = Self;
+    fn add(self, rhs: Self) -> Self::Output {
+        let mut v = self;
+        v += rhs;
+        v
     }
 }
+impl Neg for Vec3 {
+    type Output = Self;
+    
+    fn neg(self) -> Self::Output {
+        Vec3(
+            -self.0,
+            -self.1,
+            -self.2,
+            )
+    }
+}
+impl SubAssign for Vec3 {
+    fn sub_assign(&mut self, rhs: Self) {
+        self.0 -= rhs.0;
+        self.1 -= rhs.1;
+        self.2 -= rhs.2;
+    }
+}
+impl Sub for Vec3 {
+    type Output = Self;
 
-derive_unit_ops!(Mul mul *);
-derive_unit_ops!(Div div /);
+    fn sub(self, rhs: Self) -> Self::Output {
+        let mut v = self;
+        v -= rhs;
+        v
+    }
+}
+impl MulAssign<Unit> for Vec3 {
+    fn mul_assign(&mut self, rhs: Unit) {
+        self.0 *= rhs;
+        self.1 *= rhs;
+        self.2 *= rhs;
+    }
+}
+impl Mul<Unit> for Vec3 {
+    type Output = Self;
+    fn mul(self, rhs: Unit) -> Self::Output {
+        let mut v = self;
+        v *= rhs;
+        v
+    }
+}
+impl Mul<Vec3> for Unit {
+    type Output = Vec3;
+    fn mul(self, rhs: Vec3) -> Self::Output {
+        rhs * self
+    }
+}
+impl DivAssign<Unit> for Vec3 {
+    fn div_assign(&mut self, rhs: Unit) {
+        self.0 /= rhs;
+        self.1 /= rhs;
+        self.2 /= rhs;
+    }
+}
+impl Div<Unit> for Vec3 {
+    type Output = Self;
+    fn div(self, rhs: Unit) -> Self::Output {
+        let mut v = self;
+        v /= rhs;
+        v
+    }
+}
 #[cfg(test)]
 mod test {
     use super::*;
