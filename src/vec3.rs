@@ -5,7 +5,7 @@ pub type Color = Vec3;
 pub type Point = Vec3;
 
 #[derive(PartialEq, Clone, Copy, Debug)]
-pub struct Vec3 (Unit, Unit, Unit);
+pub struct Vec3 (pub Unit, pub Unit, pub Unit);
 impl Vec3 {
     pub fn new(x: Unit, y: Unit, z: Unit) -> Vec3 {
         Vec3(x,y,z)
