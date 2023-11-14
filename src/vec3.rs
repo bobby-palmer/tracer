@@ -1,41 +1,29 @@
-use std::ops;
+use std::ops::{Add, Sub};
 
 type Unit = f32;
 
 #[derive(PartialEq, Clone)]
-struct Vec3(Unit, Unit, Unit);
+struct Vec3 (Unit, Unit, Unit);
 
-impl Vec3 {
-    fn x(&self) -> Unit {
-        self.0
-    } 
-    fn y(&self) -> Unit {
-        self.1
-    }
-    fn z(&self) ->Unit {
-        self.2
-    }
-}
-impl ops::Add for Vec3 {
-    type Output = Vec3;
-    fn add(self, rhs: Self) -> Self::Output {
-        Vec3(
-            self.x() + rhs.x(),
-            self.y() + rhs.y(),
-            self.z() + rhs.z(),
-            )
+macro_rules! derive_binary_ops {
+    ($trait_name: ident $op: ident $op_symbol: tt) => {
+        impl $trait_name for Vec3 {
+            type Output = Vec3;
+
+            fn $op(self, rhs: Vec3) -> Vec3 {
+                Vec3(
+                    self.0 $op_symbol rhs.0,
+                    self.1 $op_symbol rhs.1,
+                    self.2 $op_symbol rhs.2,
+                    )
+            }
+        }
     }
 }
-impl ops::Sub for Vec3 {
-    type Output = Vec3;
-    fn sub(self, rhs: Self) -> Self::Output {
-        Vec3 (
-            self.x() - rhs.x(),
-            self.y() - rhs.y(),
-            self.z() - rhs.z(),
-            )
-    }
-}
+
+derive_binary_ops!(Add add +);
+derive_binary_ops!(Sub sub -);
+
 #[cfg(test)]
 mod test {
     use super::*;
