@@ -1,4 +1,5 @@
 use crate::vec3::{Vec3, Color};
+use crate::util;
 
 pub struct Renderer {
     height: i32,
@@ -13,11 +14,11 @@ impl Renderer {
         println!("{0} {1}", self.height, self.width);
         for row in 0..self.height {
             for col in 0..self.width {
-                let r = row;
-                let g = col;
-                let b = 0;
-                println!("{} {} {}", r, g, b);
+                util::write_color(&Self::get_pixel_color(row, col));
             }
         }
+    }
+    fn get_pixel_color(row: i32, col: i32) -> Color {
+        todo!();
     }
 }
