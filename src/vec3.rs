@@ -1,6 +1,8 @@
 use std::ops::{Add, Sub, Mul, Div, AddAssign, SubAssign, MulAssign, DivAssign, Neg};
 
 type Unit = f32;
+pub type Color = Vec3;
+pub type Point3 = Vec3;
 
 #[derive(PartialEq, Clone, Copy, Debug)]
 pub struct Vec3 (Unit, Unit, Unit);
